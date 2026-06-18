@@ -1,0 +1,6 @@
+[io.buildpacks]
+  builder = "heroku/buildpacks:24"
+
+[[io.buildpacks.buildpacks]]
+  id = "heroku/python"
+  version = "4.1.0"
