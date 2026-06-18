@@ -2,49 +2,181 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SnapTodo</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Todo Snap</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="app">
-    <header>
-      <h1 class="logo">SnapTodo</h1>
-      <div id="streak-display">
-        <span class="fire">🔥</span>
-        <span id="streak-count">0</span>
-      </div>
-    </header>
 
-    <div id="camera-overlay">
-      <div class="viewfinder">
-        <div class="scan-line"></div>
+    <!-- LOGIN SCREEN -->
+    <div id="view-login" class="view active">
+      <div class="login-bg"></div>
+      <div class="login-content">
+        <div class="ghost-logo">👻</div>
+        <h1 class="app-title">Todo Snap</h1>
+        <p class="app-subtitle">Snap your tasks away</p>
+        <div class="login-form">
+          <input type="text" id="login-username" placeholder="Username" value="saria" />
+          <input type="password" id="login-password" placeholder="Password" value="todo123" />
+          <button id="login-btn" class="btn-primary">Log In</button>
+        </div>
+        <p class="login-signup">Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
       </div>
     </div>
 
-    <main>
-      <div id="todo-list"></div>
-    </main>
+    <!-- MAIN APP -->
+    <div id="view-main" class="view">
 
-    <footer>
-      <form id="todo-form">
-        <input
-          type="text"
-          id="todo-input"
-          placeholder="What do you need to snap?"
-          autocomplete="off"
-          maxlength="140"
-        />
-        <button type="submit" id="snap-btn">
-          <span class="btn-icon">📸</span>
-        </button>
-      </form>
-    </footer>
+      <!-- CAMERA VIEW -->
+      <div id="subview-camera" class="subview active">
+        <div class="camera-header">
+          <span class="ghost-small">👻</span>
+          <span class="camera-title">Todo Snap</span>
+          <button class="icon-btn" id="logout-btn">⚙️</button>
+        </div>
+        <div class="camera-viewfinder">
+          <div class="viewfinder-grid"></div>
+          <div class="viewfinder-scanline"></div>
+          <div class="viewfinder-overlay">
+            <div class="todo-overlay-tag">Today's Todos</div>
+            <div class="todo-overlay-list" id="camera-todos"></div>
+          </div>
+          <div class="camera-actions">
+            <button class="camera-btn" id="flash-btn">⚡</button>
+            <button class="camera-btn capture-btn" id="capture-btn">📸</button>
+            <button class="camera-btn" id="flip-btn">🔄</button>
+          </div>
+        </div>
+        <div class="camera-hint">Tap the circle to snap your todos!</div>
+      </div>
+
+      <!-- CHAT VIEW -->
+      <div id="subview-chat" class="subview">
+        <div class="chat-header">
+          <span class="ghost-small">👻</span>
+          <h2>Chat</h2>
+          <button class="icon-btn" id="new-chat-btn">✏️</button>
+        </div>
+        <div class="chat-list" id="chat-list"></div>
+        <div class="chat-window" id="chat-window" style="display:none;">
+          <div class="chat-window-header">
+            <button class="icon-btn back-btn" id="chat-back-btn">←</button>
+            <div class="chat-window-info" id="chat-window-info"></div>
+          </div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Send a snap..." />
+            <button id="chat-send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORIES VIEW -->
+      <div id="subview-stories" class="subview">
+        <div class="stories-header">
+          <span class="ghost-small">👻</span>
+          <h2>Stories</h2>
+          <button class="icon-btn" id="my-story-btn">➕</button>
+        </div>
+        <div class="stories-list" id="stories-list"></div>
+        <!-- Story Viewer -->
+        <div class="story-viewer" id="story-viewer" style="display:none;">
+          <div class="story-viewer-header">
+            <div class="story-viewer-progress" id="story-progress"></div>
+            <button class="icon-btn story-close-btn" id="story-close-btn">✕</button>
+          </div>
+          <div class="story-viewer-content" id="story-viewer-content"></div>
+          <div class="story-viewer-caption" id="story-viewer-caption"></div>
+          <div class="story-tap-areas">
+            <div class="story-tap-left" id="story-tap-left"></div>
+            <div class="story-tap-right" id="story-tap-right"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED VIEW -->
+      <div id="subview-feed" class="subview">
+        <div class="feed-header">
+          <span class="ghost-small">👻</span>
+          <h2>Channels</h2>
+          <button class="icon-btn" id="feed-search-btn">🔍</button>
+        </div>
+        <div class="feed-channels" id="feed-channels"></div>
+      </div>
+
+      <!-- MAP VIEW -->
+      <div id="subview-map" class="subview">
+        <div class="map-header">
+          <span class="ghost-small">👻</span>
+          <h2>Global Map</h2>
+          <button class="icon-btn" id="map-filter-btn">🔍</button>
+        </div>
+        <div class="map-container" id="map-container">
+          <div class="map-backdrop"></div>
+          <div class="map-pins" id="map-pins"></div>
+        </div>
+      </div>
+
+      <!-- PROFILE / MEMOJI VIEW -->
+      <div id="subview-profile" class="subview">
+        <div class="profile-header">
+          <button class="icon-btn" id="profile-back-btn">←</button>
+          <h2>My Memoji</h2>
+          <button class="icon-btn" id="profile-save-btn">💾</button>
+        </div>
+        <div class="profile-memoji-preview" id="memoji-preview"></div>
+        <div class="profile-stats">
+          <div class="stat-card"><span class="stat-num" id="stat-todos">0</span><span>Todos Done</span></div>
+          <div class="stat-card"><span class="stat-num" id="stat-streak">0</span><span>Day Streak</span></div>
+          <div class="stat-card"><span class="stat-num" id="stat-friends">0</span><span>Friends</span></div>
+        </div>
+        <div class="memoji-customizer">
+          <div class="customizer-section">
+            <label>Face Shape</label>
+            <div class="option-row" id="face-shape-options"></div>
+          </div>
+          <div class="customizer-section">
+            <label>Eyes</label>
+            <div class="option-row" id="eyes-options"></div>
+          </div>
+          <div class="customizer-section">
+            <label>Mouth</label>
+            <div class="option-row" id="mouth-options"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM NAV -->
+      <nav class="bottom-nav" id="bottom-nav">
+        <button class="nav-btn active" data-tab="camera" title="Camera">📷</button>
+        <button class="nav-btn" data-tab="chat" title="Chat">💬</button>
+        <button class="nav-btn" data-tab="stories" title="Stories">📖</button>
+        <button class="nav-btn" data-tab="feed" title="Feed">📰</button>
+        <button class="nav-btn" data-tab="map" title="Map">🗺️</button>
+      </nav>
+
+    </div>
+
+    <!-- SNAP OVERLAY -->
+    <div class="snap-overlay" id="snap-overlay" style="display:none;">
+      <div class="snap-overlay-flash" id="snap-flash"></div>
+      <div class="snap-result" id="snap-result">
+        <div class="snap-result-emoji">✅</div>
+        <div class="snap-result-text" id="snap-result-text">Today's todos snapped!</div>
+      </div>
+    </div>
+
+    <!-- TODO FRIENDS (shown as panel from profile or as overlay) -->
+    <div id="view-todo-friends" class="subview" style="display:none;">
+      <div class="todo-friends-header">
+        <button class="icon-btn" id="todo-friends-back">←</button>
+        <h2>Todo Friends</h2>
+      </div>
+      <div class="todo-friends-list" id="todo-friends-list"></div>
+    </div>
+
   </div>
-
-  <div id="snap-flash"></div>
-
   <script src="app.js"></script>
 </body>
 </html>
