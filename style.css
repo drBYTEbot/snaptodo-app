@@ -1,0 +1,413 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --snap-yellow: #fffc00;
+  --snap-black: #111;
+  --snap-dark: #1a1a2e;
+  --snap-purple: #7c3aed;
+  --snap-red: #ff0050;
+  --snap-white: #f0f0f0;
+  --snap-gray: #333;
+  --snap-light-gray: #555;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--snap-black);
+  color: var(--snap-white);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px;
+  background: var(--snap-dark);
+  border-bottom: 2px solid var(--snap-yellow);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--snap-yellow), #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#streak-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--snap-gray);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.fire {
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(255, 100, 0, 0.6));
+}
+
+#streak-count {
+  color: var(--snap-yellow);
+  min-width: 20px;
+  text-align: center;
+}
+
+#camera-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+}
+
+.viewfinder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 50%;
+  border: 2px solid var(--snap-yellow);
+  border-radius: 12px;
+}
+
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--snap-yellow);
+  animation: scan 3s ease-in-out infinite;
+  box-shadow: 0 0 12px var(--snap-yellow);
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    top: 0;
+  }
+  50% {
+    top: calc(100% - 2px);
+  }
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+main::-webkit-scrollbar {
+  width: 4px;
+}
+
+main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: var(--snap-light-gray);
+  border-radius: 4px;
+}
+
+#todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--snap-dark);
+  border: 1px solid var(--snap-gray);
+  border-radius: 12px;
+  padding: 14px 16px;
+  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.todo-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--snap-yellow);
+  border-radius: 0 2px 2px 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.todo-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--snap-light-gray);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.todo-check:hover {
+  border-color: var(--snap-yellow);
+}
+
+.todo-check.done {
+  background: var(--snap-yellow);
+  border-color: var(--snap-yellow);
+}
+
+.todo-check.done::after {
+  content: "✓";
+  color: var(--snap-black);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
+  transition: all 0.3s ease;
+}
+
+.todo-text.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.todo-delete {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--snap-light-gray);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.todo-item:hover .todo-delete {
+  opacity: 1;
+}
+
+.todo-delete:hover {
+  color: var(--snap-red);
+  background: rgba(255, 0, 80, 0.1);
+}
+
+.todo-time {
+  font-size: 11px;
+  color: var(--snap-light-gray);
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.todo-item.snapping {
+  animation: snapDisappear 0.5s ease forwards;
+}
+
+@keyframes snapDisappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.1);
+    filter: brightness(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  animation: slideUp 0.5s ease;
+}
+
+.empty-state .ghost {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-state h2 {
+  font-size: 20px;
+  color: var(--snap-light-gray);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: var(--snap-light-gray);
+  opacity: 0.7;
+}
+
+footer {
+  padding: 12px 16px 24px;
+  background: var(--snap-dark);
+  border-top: 1px solid var(--snap-gray);
+}
+
+#todo-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#todo-input {
+  flex: 1;
+  padding: 14px 18px;
+  border-radius: 25px;
+  border: 2px solid var(--snap-gray);
+  background: var(--snap-black);
+  color: var(--snap-white);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+#todo-input:focus {
+  border-color: var(--snap-yellow);
+}
+
+#todo-input::placeholder {
+  color: var(--snap-light-gray);
+}
+
+#snap-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--snap-yellow), #ff6b35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+#snap-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(255, 252, 0, 0.4);
+}
+
+#snap-btn:active {
+  transform: scale(0.92);
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+#snap-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#snap-flash.active {
+  animation: flash 0.15s ease-out;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 12px 16px 8px;
+  }
+  .logo {
+    font-size: 20px;
+  }
+  #todo-input {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  #snap-btn {
+    width: 44px;
+    height: 44px;
+  }
+}

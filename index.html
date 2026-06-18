@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnapTodo</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1 class="logo">SnapTodo</h1>
+      <div id="streak-display">
+        <span class="fire">🔥</span>
+        <span id="streak-count">0</span>
+      </div>
+    </header>
+
+    <div id="camera-overlay">
+      <div class="viewfinder">
+        <div class="scan-line"></div>
+      </div>
+    </div>
+
+    <main>
+      <div id="todo-list"></div>
+    </main>
+
+    <footer>
+      <form id="todo-form">
+        <input
+          type="text"
+          id="todo-input"
+          placeholder="What do you need to snap?"
+          autocomplete="off"
+          maxlength="140"
+        />
+        <button type="submit" id="snap-btn">
+          <span class="btn-icon">📸</span>
+        </button>
+      </form>
+    </footer>
+  </div>
+
+  <div id="snap-flash"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
